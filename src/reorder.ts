@@ -3,10 +3,11 @@ import { Row } from './types';
 
 // a little function to help us with reordering the result
 export const reorder = (
-  list: any[],
+  list: any[] | null | undefined,
   startIndex: number,
   endIndex: number
 ): any[] => {
+  if(!list) return [];
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);

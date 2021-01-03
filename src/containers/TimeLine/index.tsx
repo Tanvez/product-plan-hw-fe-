@@ -1,89 +1,67 @@
-import React from 'react'
-import { DragDropContext } from 'react-beautiful-dnd';
-import { generate } from 'shortid';
-import { TimeLineList } from '../../components/TimelineList';
-import { reorderRows } from '../../reorder';
+import React from 'react';
+import { Draggable, Droppable, } from 'react-beautiful-dnd';
+import { Row } from '../../types';
+import RoadMapItem from '../../components/RoadMapItem';
 
-const timeline = generate();
-const sidebar = generate();
-
-export const TimeLineContainer = () => {
-  const [rows, setRows] = React.useState([
-    { 
-      id:timeline,
-      label:"timeline",
-      bars:[],
-      width:"80vw",
-      height:"100px"
-    },
-    {
-      id: sidebar,
-      label:"sidebar",
-      bars:[
-        { 
-          id: generate(),
-          content: "Add lane",
-          url: "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
-          width:"100vw",
-        },
-        { 
-          id: generate(),
-          content: "Add bar",
-          url: "https://www.ssbwiki.com/images/thumb/7/74/Peach_SSBU.png/500px-Peach_SSBU.png",
-          width:"100px"
-        },
-        { 
-          id: generate(),
-          content: "Add lane1",
-          url: "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
-          width:"100vw",
-        },
-        { 
-          id: generate(),
-          content: "Add bar",
-          url: "https://www.ssbwiki.com/images/thumb/7/74/Peach_SSBU.png/500px-Peach_SSBU.png",
-          width:"100px"
-        }
-      ],
-      width:"20vw",
-      height:"100vh"
-    },
-  ]);
-  return (
-    <div style={{ display: "flex", justifyContent: "center", height: "100%", width:'100%' }}>
-      <DragDropContext
-        onDragEnd={async ({ destination, source }) => {
-          // // dropped outside the list
-          if (!destination) { 
-            return;
-          }
-          if(!rows[1].bars.find(e=>e.content==="Add lane")){
-            console.log(rows.length);
-          }
-          setRows(reorderRows(rows, source, destination));
-        }}
-      >
-          {rows.map(row => (
-          	<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-						}}
-						key={row.id}
-						>
-              <div style={{border: '1px solid black', }}>
-                <TimeLineList
-                  internalScroll
-                  key={row.id}
-                  listId={row.id}
-                  listType="CARD"
-                  row={row}
-                />
-              </div>
-            </div>
-          ))}
-      </DragDropContext>
-    </div>
-  )
+interface Props {
+  row: Row;
+  listId: string;
+  listType?: string;
+  internalScroll?: boolean;
+  index:number;
 }
+
+export const Timeline: React.FC<Props> = ({ listId, listType, row }) => (
+  <Droppable
+    droppableId={listId}
+    type={listType}
+  >
+    {(dropProvided, snapshot) => (
+      // drop area
+        <div
+        {...dropProvided.droppableProps}      
+        style={{
+          background: snapshot.isDraggingOver
+            ? "lightblue"
+            : "lightgrey",
+          width: row.width,
+          minHeight: row.height,
+          borderStyle: snapshot.isDraggingOver ? "dotted" : "",
+        }}
+          ref={dropProvided.innerRef}
+        >{row.label==="timeline" && row.bars.length===0?"drag here":""}
+          {/* drag and drop items */}
+          {row.bars.map((lane, index) => (
+            <RoadMapItem key={index} lane={lane} index={index} />
+          ))}
+          {dropProvided.placeholder}
+        </div>
+    )}
+  </Droppable>
+);
+
+// export const Timeline: React.FC<Props> = ({ listId, listType, row, index }) => (
+//   <Draggable key={listId} draggableId={listId} index={index}>
+//     {(provided, snapshot) => (
+//       <div>
+//       <div
+//         ref={provided.innerRef}
+//         {...provided.draggableProps}
+//       >
+//         {row.label}
+//         <span
+//           {...provided.dragHandleProps}
+//           style={{
+//             display: "inline-block",
+//             margin: "0 10px",
+//             border: "1px solid #000",
+//           }}
+//         >
+//           Drag
+//         </span>
+//       </div>
+//       {provided.placeholder}
+//     </div>
+//     )}
+//   </Draggable>
+// );
