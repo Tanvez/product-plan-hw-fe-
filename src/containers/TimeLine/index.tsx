@@ -9,44 +9,41 @@ const sidebar = generate();
 
 export const TimeLineContainer = () => {
   const [rows, setRows] = React.useState([
-    { 
-      id:timeline,
-      label:"timeline",
-      bars:[],
-      width:"80vw",
-      height:"100px"
+    {
+      id: timeline,
+      label: "timeline",
+      bars: [],
+      width: "80vw",
+      height: "100px",
     },
     {
       id: sidebar,
-      label:"sidebar",
-      bars:[
-        { 
+      label: "sidebar",
+      bars: [
+        {
           id: generate(),
           content: "Add lane",
-          url: "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
-          width:"100vw",
+          url:
+            "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
+          width: "100vw",
         },
-        { 
+        {
           id: generate(),
           content: "Add bar",
-          url: "https://www.ssbwiki.com/images/thumb/7/74/Peach_SSBU.png/500px-Peach_SSBU.png",
-          width:"100px"
+          url:
+            "https://www.ssbwiki.com/images/thumb/7/74/Peach_SSBU.png/500px-Peach_SSBU.png",
+          width: "100px",
         },
-        { 
+        {
           id: generate(),
           content: "Add lane1",
-          url: "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
-          width:"100vw",
+          url:
+            "https://www.ssbwiki.com/images/thumb/4/44/Mario_SSBU.png/500px-Mario_SSBU.png",
+          width: "100vw",
         },
-        { 
-          id: generate(),
-          content: "Add bar",
-          url: "https://www.ssbwiki.com/images/thumb/7/74/Peach_SSBU.png/500px-Peach_SSBU.png",
-          width:"100px"
-        }
       ],
-      width:"20vw",
-      height:"100vh"
+      width: "20vw",
+      height: "100vh",
     },
   ]);
   return (
